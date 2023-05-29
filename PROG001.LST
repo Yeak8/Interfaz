@@ -1,0 +1,54 @@
+Microsoft (R) Macro Assembler Version 5.10                  5/22/23 09:50:30
+comple                                                      Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+STACK  . . . . . . . . . . . . .  	0000	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+CONVERLOOP . . . . . . . . . . .  	L NEAR	016D	
+CONVERLOOPM  . . . . . . . . . .  	L NEAR	0153	
+CONVERTIR_FIN  . . . . . . . . .  	L NEAR	0168	
+CONVERTIR_FINAL  . . . . . . . .  	L NEAR	0182	
+CONVERTIR_FINALIZADO . . . . . .  	L NEAR	01C1	
+CONVERTIR_MINUSCULAS . . . . . .  	L NEAR	0169	
+CONVERTIR_NEXT . . . . . . . . .  	L NEAR	0165	
+CONVERTIR_NEXTLISTO  . . . . . .  	L NEAR	017F	
+CONVERTIR_NOMINUSCULA  . . . . .  	L NEAR	01B1	
+CONVERTIR_TITULO . . . . . . . .  	L NEAR	0195	
+CONVERTITULO . . . . . . . . . .  	L NEAR	0183	
+CONVERTM . . . . . . . . . . . .  	L NEAR	014F	
+
+FRASELISTALISTA  . . . . . . . .  	L BYTE	00A4		Length = 0096
+
+INTCONVERLOOP  . . . . . . . . .  	L NEAR	0196	
+
+MENSAJE  . . . . . . . . . . . .  	L BYTE	001A	
+MENSAJE_SALIDA . . . . . . . . .  	L BYTE	0214	
+
+NOMBRE . . . . . . . . . . . . .  	L BYTE	0000	
+
+OPCION . . . . . . . . . . . . .  	L BYTE	013A	
+OPCION_MENU  . . . . . . . . . .  	L BYTE	01C2	
+
+START  . . . . . . . . . . . . .  	L NEAR	0100	
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  prog001		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+      0 Source  Lines
+      0 Total   Lines
+     26 Symbols
+
+  46618 + 433138 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

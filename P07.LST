@@ -1,0 +1,271 @@
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:40
+Practica6                                                   Page     1-1
+
+
+       1				TITLE Practica6
+       2				
+       3				COMMENT *practica CALL*
+       4					 
+       5				PUBLIC TEXTO1
+       6				PUBLIC TEXTO2
+       7				PUBLIC TEXTO3
+       8				PUBLIC TEXTO4
+       9				PUBLIC TEXTO5
+      10				PUBLIC TEXTO6
+      11				PUBLIC TEXTO7
+      12				PUBLIC NUMEROS
+      13				PUBLIC numDatos
+      14				PUBLIC numeroDatos
+      15				EXTRN INGRESONUMEROS:FAR
+      16				EXTRN ORDENAR_DESC:FAR
+      17				EXTRN ORDENAR_ASC:FAR
+      18				EXTRN IMPRIMIR:FAR
+      19				EXTRN ESPACIO:FAR
+      20				EXTRN REPETIR:FAR
+      21				EXTRN TITULOINICIAL:FAR
+      22				EXTRN TIPOORDENAMIENTO:FAR
+      23				EXTRN NUMERODEELEMENTOS:FAR
+      24				EXTRN INICIALIZAR:FAR
+      25				
+      26 0000				stack   segment para stack 'STACK'     
+					   
+      27 0000  0080[			         db 128 dup ("PILA")        
+      28	   50 49 4C 41		
+      29			 ]	
+      30				
+      31 0200				     stack   ends
+      32				
+      33 0000				data segment para public 'data' 
+      34 0000  0A 0D 50 72 61 63		TEXTO1 db 0AH,0DH,"Practica 7, 
+					uso de librerías","$"
+      35       74 69 63 61 20 37	
+      36       2C 20 75 73 6F 20	
+      37       64 65 20 6C 69 62	
+      38       72 65 72 C3 AD 61	
+      39       73 24			
+      40 0020  0A 0D 49 6E 73 65		TEXTO2 db 0AH,0DH,"Inserte nume
+					ro (2 digitos): ","$"
+      41       72 74 65 20 6E 75	
+      42       6D 65 72 6F 20 28	
+      43       32 20 64 69 67 69	
+      44       74 6F 73 29 3A 20	
+      45       24			
+      46 003F  0A 0D 49 6E 67 72		TEXTO3 db 0AH,0DH,"Ingrese 1 pa
+					ra ordenar descendentemente o 0 para as
+					cendente","$"
+      47       65 73 65 20 31 20	
+      48       70 61 72 61 20 6F	
+      49       72 64 65 6E 61 72	
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:40
+Practica6                                                   Page     1-2
+
+
+      50       20 64 65 73 63 65	
+      51       6E 64 65 6E 74 65	
+      52       6D 65 6E 74 65 20	
+      53       6F 20 30 20 70 61	
+      54       72 61 20 61 73 63	
+      55       65 6E 64 65 6E 74	
+      56       65 24			
+      57 007D  0A 0D 53 69 20 64		TEXTO4 db 0AH,0DH,"Si desea ord
+					enar nuevamente presione 1, de lo contr
+					ario cualquier tecla.",0AH,0DH,"$"
+      58       65 73 65 61 20 6F	
+      59       72 64 65 6E 61 72	
+      60       20 6E 75 65 76 61	
+      61       6D 65 6E 74 65 20	
+      62       70 72 65 73 69 6F	
+      63       6E 65 20 31 2C 20	
+      64       64 65 20 6C 6F 20	
+      65       63 6F 6E 74 72 61	
+      66       72 69 6F 20 63 75	
+      67       61 6C 71 75 69 65	
+      68       72 20 74 65 63 6C	
+      69       61 2E 0A 0D 24		
+      70 00CA  20 20 0A 0D 24			TEXTO5 db "  ",0AH,0DH,"$"
+      71 00CF  0A 0D 49 6E 67 72		TEXTO6 db 0AH,0DH,"Ingrese cant
+					idad de numeros a ordenar(max 100, en f
+					ormato de 3 digitos): ","$"
+      72       65 73 65 20 63 61	
+      73       6E 74 69 64 61 64	
+      74       20 64 65 20 6E 75	
+      75       6D 65 72 6F 73 20	
+      76       61 20 6F 72 64 65	
+      77       6E 61 72 28 6D 61	
+      78       78 20 31 30 30 2C	
+      79       20 65 6E 20 66 6F	
+      80       72 6D 61 74 6F 20	
+      81       64 65 20 33 20 64	
+      82       69 67 69 74 6F 73	
+      83       29 3A 20 24		
+      84 011B  20 24				TEXTO7 db " ","$"
+      85 011D  0000 0000 0000 0000		NUMEROS dw 0h,0h,0h,0h,0h,0h,0h
+					,0h,0h,0h
+      86       0000 0000 0000 0000	
+      87       0000 0000		
+      88 0131  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h
+      89       0000 0000 0000 0000	
+      90       0000 0000		
+      91 0145  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h
+      92       0000 0000 0000 0000	
+      93       0000 0000		
+      94 0159  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h
+      95       0000 0000 0000 0000	
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:40
+Practica6                                                   Page     1-3
+
+
+      96       0000 0000		
+      97 016D  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h
+      98       0000 0000 0000 0000	
+      99       0000 0000		
+     100 0181  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h
+     101       0000 0000 0000 0000	
+     102       0000 0000		
+     103 0195  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h
+     104       0000 0000 0000 0000	
+     105       0000 0000		
+     106 01A9  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h
+     107       0000 0000 0000 0000	
+     108       0000 0000		
+     109 01BD  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h
+     110       0000 0000 0000 0000	
+     111       0000 0000		
+     112 01D1  0000 0000 0000 0000				dw 0h,0h,0h,0h,
+					0h,0h,0h,0h,0h,0h, "$"
+     113       0000 0000 0000 0000	
+     114       0000 0000 0024		
+     115 01E7  00 00 00				numDatos db 0,0,0
+     116 01EA  0000				numeroDatos dw 0
+     117							
+     118							
+     119 01EC				data ends
+     120				
+     121 0000				code segment para public 'code'
+     122				assume cs:code,ss:stack,ds:data
+     123					 
+     124 0000				prueba proc far
+     125 0000  1E				PUSH DS
+     126 0001  2B C0				SUB AX,AX
+     127 0003  50				PUSH AX	   
+     128 0004  B8 ---- R			MOV AX,SEG DATA
+     129 0007  8E D8				MOV DS,AX
+     130					
+     131					
+     132 0009					INICIO_PROGRAMA:
+     133 0009  9A 0000 ---- E			CALL INICIALIZAR
+     134 000E  9A 0000 ---- E			CALL TITULOINICIAL
+     135 0013  9A 0000 ---- E			CALL NUMERODEELEMENTOS
+     136 0018  9A 0000 ---- E			CALL INGRESONUMEROS
+     137 001D  9A 0000 ---- E			CALL TIPOORDENAMIENTO
+     138					
+     139 0022  3C 30				CMP AL,48
+     140 0024  74 0E				JE ASC
+     141 0026  3C 31				CMP AL,49
+     142 0028  74 00				JE DESC
+     143					
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:40
+Practica6                                                   Page     1-4
+
+
+     144 002A					DESC:
+     145 002A  9A 0000 ---- E			CALL ORDENAR_DESC
+     146 002F  EB 08 90				JMP CONTINUA
+     147					
+     148 0032					SALTO_INTERMEDIO:
+     149 0032  EB D5				JMP INICIO_PROGRAMA
+     150					
+     151 0034					ASC:
+     152 0034  9A 0000 ---- E			CALL ORDENAR_ASC
+     153					
+     154 0039					CONTINUA:
+     155 0039  9A 0000 ---- E			CALL ESPACIO
+     156 003E  9A 0000 ---- E			CALL IMPRIMIR
+     157					
+     158 0043  9A 0000 ---- E			CALL REPETIR
+     159 0048  3C 31				CMP AL, 49
+     160 004A  74 E6				JE SALTO_INTERMEDIO
+     161					;JMP SALTO_INTERMEDIO
+     162 004C  CB				RET
+     163					
+     164 004D				code ends
+     165 0000				prueba ENDP
+     166				END
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:40
+Practica6                                                   Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	004D	PARA	PUBLIC	'CODE'
+DATA . . . . . . . . . . . . . .  	01EC	PARA	PUBLIC	'DATA'
+STACK  . . . . . . . . . . . . .  	0200	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ASC  . . . . . . . . . . . . . .  	L NEAR	0034	CODE
+
+CONTINUA . . . . . . . . . . . .  	L NEAR	0039	CODE
+
+DESC . . . . . . . . . . . . . .  	L NEAR	002A	CODE
+
+ESPACIO  . . . . . . . . . . . .  	L FAR 	0000		External
+
+IMPRIMIR . . . . . . . . . . . .  	L FAR 	0000		External
+INGRESONUMEROS . . . . . . . . .  	L FAR 	0000		External
+INICIALIZAR  . . . . . . . . . .  	L FAR 	0000		External
+INICIO_PROGRAMA  . . . . . . . .  	L NEAR	0009	CODE
+
+NUMDATOS . . . . . . . . . . . .  	L BYTE	01E7	DATA	Global
+NUMERODATOS  . . . . . . . . . .  	L WORD	01EA	DATA	Global
+NUMERODEELEMENTOS  . . . . . . .  	L FAR 	0000		External
+NUMEROS  . . . . . . . . . . . .  	L WORD	011D	DATA	Global
+
+ORDENAR_ASC  . . . . . . . . . .  	L FAR 	0000		External
+ORDENAR_DESC . . . . . . . . . .  	L FAR 	0000		External
+
+PRUEBA . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 0000
+
+REPETIR  . . . . . . . . . . . .  	L FAR 	0000		External
+
+SALTO_INTERMEDIO . . . . . . . .  	L NEAR	0032	CODE
+
+TEXTO1 . . . . . . . . . . . . .  	L BYTE	0000	DATA	Global
+TEXTO2 . . . . . . . . . . . . .  	L BYTE	0020	DATA	Global
+TEXTO3 . . . . . . . . . . . . .  	L BYTE	003F	DATA	Global
+TEXTO4 . . . . . . . . . . . . .  	L BYTE	007D	DATA	Global
+TEXTO5 . . . . . . . . . . . . .  	L BYTE	00CA	DATA	Global
+TEXTO6 . . . . . . . . . . . . .  	L BYTE	00CF	DATA	Global
+TEXTO7 . . . . . . . . . . . . .  	L BYTE	011B	DATA	Global
+TIPOORDENAMIENTO . . . . . . . .  	L FAR 	0000		External
+TITULOINICIAL  . . . . . . . . .  	L FAR 	0000		External
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  P07		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:40
+Practica6                                                   Symbols-2
+
+
+
+     99 Source  Lines
+     99 Total   Lines
+     34 Symbols
+
+  46470 + 441253 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

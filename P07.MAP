@@ -1,0 +1,86 @@
+
+ Start  Stop   Length Name                   Class
+ 00000H 001E0H 001E1H CODE                   CODE
+ 001F0H 003DBH 001ECH DATA                   DATA
+ 003E0H 003E0H 00000H DATA1                  DATA
+ 003E0H 005DFH 00200H STACK                  STACK
+
+  Address         Publics by Name
+
+ 0000:0160       ESPACIO
+ 0000:00ED       IMPRIMIR
+ 0000:0050       INGRESONUMEROS
+ 0000:01C8       INICIALIZAR
+ 001F:01E7       NUMDATOS
+ 001F:01EA       NUMERODATOS
+ 0000:0185       NUMERODEELEMENTOS
+ 001F:011D       NUMEROS
+ 0000:00B8       ORDENAR_ASC
+ 0000:0083       ORDENAR_DESC
+ 0000:0151       REPETIR
+ 001F:0000       TEXTO1
+ 001F:0020       TEXTO2
+ 001F:003F       TEXTO3
+ 001F:007D       TEXTO4
+ 001F:00CA       TEXTO5
+ 001F:00CF       TEXTO6
+ 001F:011B       TEXTO7
+ 0000:0170       TIPOORDENAMIENTO
+ 0000:0168       TITULOINICIAL
+
+  Address         Publics by Value
+
+ 0000:0050       INGRESONUMEROS
+ 0000:0083       ORDENAR_DESC
+ 0000:00B8       ORDENAR_ASC
+ 0000:00ED       IMPRIMIR
+ 0000:0151       REPETIR
+ 0000:0160       ESPACIO
+ 0000:0168       TITULOINICIAL
+ 0000:0170       TIPOORDENAMIENTO
+ 0000:0185       NUMERODEELEMENTOS
+ 0000:01C8       INICIALIZAR
+ 001F:0000       TEXTO1
+ 001F:0020       TEXTO2
+ 001F:003F       TEXTO3
+ 001F:007D       TEXTO4
+ 001F:00CA       TEXTO5
+ 001F:00CF       TEXTO6
+ 001F:011B       TEXTO7
+ 001F:011D       NUMEROS
+ 001F:01E7       NUMDATOS
+ 001F:01EA       NUMERODATOS
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 0021 in segment CODE
+ pos: 2E1 Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 0038 in segment CODE
+ pos: 2EB Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 003C in segment CODE
+ pos: 2F0 Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 0047 in segment CODE
+ pos: 2F5 Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 004B in segment CODE
+ pos: 2FA Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 006D in segment CODE
+ pos: 309 Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 0071 in segment CODE
+ pos: 30E Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 007C in segment CODE
+ pos: 313 Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 0080 in segment CODE
+ pos: 318 Record type: 48BE
+ target external 'NUMEROS'
+LIB07.OBJ(LIB07.ASM) : error L2002: fixup overflow at 00E2 in segment CODE
+ pos: 32C Record type: 48BE
+ target external 'NUMEROS'
+
+Segments              4
+Groups                1
+Bytes in symbol table  32784

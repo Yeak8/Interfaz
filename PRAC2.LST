@@ -1,0 +1,113 @@
+Microsoft (R) Macro Assembler Version 5.10                  3/31/23 15:10:48
+Practica2 Evidencias                                        Page     1-1
+
+
+       1				PAGE 40,132
+       2				
+       3				TITLE Practica2 Evidencias
+       4				
+       5				;Generar 2 arreglos denominados Arreglo1 y Arreglo2 de tipo byte con 5 datos.
+       6				;Sumar cada dato del primer arreglo con su correspondiente en el segundo arreglo.
+       7				;Poner cada resultado en un arreglo tipo word llamado resultados.
+       8				
+       9				;se inicializara el stack a continuacion
+      10				;PUBLIC PROCEDIMIENTO
+      11				
+      12 0000				stack   segment para stack 'STACK'        
+      13 0000  0040[			        db 64 dup ("STACK   ")        
+      14	   53 54 41 43 4B	
+      15	   20 20 20		
+      16			 ]	
+      17				
+      18 0200				stack   ends
+      19				
+      20 0000				data segment para memory 'data' 
+      21 0000  01 02 03 04 05				Arreglo1 db 1H, 2H, 3H, 4H, 5H
+      22 0005  10 20 30 40 50				Arreglo2 db 10H, 20H, 30H, 40H, 50H
+      23 000A  0000 0000 0000 0000			Resultados dw 0H, 0H, 0H, 0H, 0H
+      24       0000			
+      25 0014				data ends
+      26				
+      27 0000				code segment para 'code'
+      28					assume cs:code,ss:stack,ds:data
+      29				
+      30 0000				prueba proc far       
+      31 0000  B8 ---- R		       MOV AX,SEG DATA	;Estas dos instrucciones siempre las van a poner
+      32 0003  8E D8			       MOV DS,AX
+      33				       
+      34 0005  BE 0000					mov si,0;
+      35 0008  B8 0000					mov AX,0;
+      36 000B  8A 84 0000 R				mov al, Arreglo1[si]
+Microsoft (R) Macro Assembler Version 5.10                  3/31/23 15:10:48
+Practica2 Evidencias                                        Page     1-2
+
+
+      37 000F  02 84 0005 R				add al, Arreglo2[si]
+      38 0013  15 0000					adc AX,0;
+      39 0016  89 84 000A R				mov Resultados[si], ax
+      40						
+      41 001A  B8 0000					mov AX,0;
+      42 001D  8A 84 0001 R				mov al, Arreglo1[si+1]
+      43 0021  02 84 0006 R				add al, Arreglo2[si+1]
+      44 0025  15 0000					adc AX,0;
+      45 0028  89 84 000C R				mov Resultados[si+2], ax
+      46						
+      47 002C  B8 0000					mov AX,0;
+      48 002F  8A 84 0002 R				mov al, Arreglo1[si+2]
+      49 0033  02 84 0007 R				add al, Arreglo2[si+2]
+      50 0037  15 0000					adc AX,0;
+      51 003A  89 84 000E R				mov Resultados[si+4], ax
+      52						
+      53 003E  B8 0000					mov AX,0;
+      54 0041  8A 84 0003 R				mov al, Arreglo1[si+3]
+      55 0045  02 84 0008 R				add al, Arreglo2[si+3]
+      56 0049  15 0000					adc AX,0;
+      57 004C  89 84 0010 R				mov Resultados[si+6], ax
+      58						
+      59 0050  B8 0000					mov AX,0;
+      60 0053  8A 84 0004 R				mov al, Arreglo1[si+4]
+      61 0057  02 84 0009 R				add al, Arreglo2[si+4]
+      62 005B  15 0000					adc AX,0;
+      63 005E  89 84 0012 R				mov Resultados[si+8], ax
+      64 0062  B8 0000					mov AX,0;
+      65 0065				prueba endp
+      66				
+      67 0065				code ends
+      68				
+      69				END prueba
+Microsoft (R) Macro Assembler Version 5.10                  3/31/23 15:10:48
+Practica2 Evidencias                                        Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0065	PARA	NONE	'CODE'
+DATA . . . . . . . . . . . . . .  	0014	PARA	MEMORY	'DATA'
+STACK  . . . . . . . . . . . . .  	0200	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ARREGLO1 . . . . . . . . . . . .  	L BYTE	0000	DATA
+ARREGLO2 . . . . . . . . . . . .  	L BYTE	0005	DATA
+
+PRUEBA . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 0065
+
+RESULTADOS . . . . . . . . . . .  	L WORD	000A	DATA
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  Prac2		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+     64 Source  Lines
+     64 Total   Lines
+     12 Symbols
+
+  46224 + 445596 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

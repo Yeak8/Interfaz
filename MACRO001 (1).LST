@@ -1,0 +1,424 @@
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Page     1-1
+
+
+       1				TITLE Practica6
+       2				
+       3 0000				stack   segment para stack 'STACK'     
+					   
+       4 0000  0040[			        db 64 dup ("STACK   ")        
+       5	   53 54 41 43 4B	
+       6	   20 20 20		
+       7			 ]	
+       8				
+       9 0200				stack   ends
+      10				
+      11 0000				data segment para public 'data' 
+      12				
+      13 0000  0A 0D 50 72 61 63	    texto1 db 0AH,0DH,"Practica 6 utili
+					zando MACRO","$"
+      14       74 69 63 61 20 36	
+      15       20 75 74 69 6C 69	
+      16       7A 61 6E 64 6F 20	
+      17       4D 41 43 52 4F 24	
+      18 001E  0A 0D 49 6E 73 65		texto2 db 0AH,0DH,"Inserte el n
+					umero de dos digitos elegido,"
+      19       72 74 65 20 65 6C	
+      20       20 6E 75 6D 65 72	
+      21       6F 20 64 65 20 64	
+      22       6F 73 20 64 69 67	
+      23       69 74 6F 73 20 65	
+      24       6C 65 67 69 64 6F	
+      25       2C			
+      26 0049  0A 0D 65 6A 65 6D			   db 0AH,0DH,"ejemplo:
+					 (Si quiere el numero 5, inserte 05). :
+					","$"
+      27       70 6C 6F 3A 20 28	
+      28       53 69 20 71 75 69	
+      29       65 72 65 20 65 6C	
+      30       20 6E 75 6D 65 72	
+      31       6F 20 35 2C 20 69	
+      32       6E 73 65 72 74 65	
+      33       20 30 35 29 2E 20	
+      34       3A 24			
+      35 007B  0A 0D 49 6E 67 72		texto3 db 0AH,0DH,"Ingrese 1 pa
+					ra ordenar descendentemente o 0 para as
+					cendente","$"
+      36       65 73 65 20 31 20	
+      37       70 61 72 61 20 6F	
+      38       72 64 65 6E 61 72	
+      39       20 64 65 73 63 65	
+      40       6E 64 65 6E 74 65	
+      41       6D 65 6E 74 65 20	
+      42       6F 20 30 20 70 61	
+      43       72 61 20 61 73 63	
+      44       65 6E 64 65 6E 74	
+      45       65 24			
+      46 00B9  0A 0D 53 69 20 64		texto4 db 0AH,0DH,"Si desea ord
+					enar nuevamente presione 1, de lo contr
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Page     1-2
+
+
+					ario presione cualquier tecla.",0AH,0DH
+					,"$"
+      47       65 73 65 61 20 6F	
+      48       72 64 65 6E 61 72	
+      49       20 6E 75 65 76 61	
+      50       6D 65 6E 74 65 20	
+      51       70 72 65 73 69 6F	
+      52       6E 65 20 31 2C 20	
+      53       64 65 20 6C 6F 20	
+      54       63 6F 6E 74 72 61	
+      55       72 69 6F 20 70 72	
+      56       65 73 69 6F 6E 65	
+      57       20 63 75 61 6C 71	
+      58       75 69 65 72 20 74	
+      59       65 63 6C 61 2E 0A	
+      60       0D 24			
+      61 010F  0A 0D 24				texto5 db 0AH,0DH,"$"
+      62 0112  0000 0000 0000 0000		numeros dw 0h,0h,0h,0h,0h,0h,0h
+					,0h,0h,0h,"$"
+      63       0000 0000 0000 0000	
+      64       0000 0000 0024		
+      65 0128				data ends
+      66				
+      67				COMMENT *practica MACRO*
+      68				;____________MACRO____________________
+      69				
+      70				ESPACIO MACRO
+      71				     MOV AH,09H
+      72					 MOV DX,OFFSET texto5
+      73					 INT 21h
+      74				ENDM
+      75				
+      76				;________________________________
+      77				INGRESAR_DATOS MACRO
+      78				
+      79				     MOV SI,0
+      80					 CICLO_INGRESONUMEROS:
+      81					 MOV AH,09H
+      82					 MOV DX,OFFSET texto2
+      83					 INT 21H
+      84					 
+      85					 MOV AH,01H
+      86					 INT 21H
+      87					 MOV BH,AL
+      88					 
+      89					 MOV AH,01H
+      90					 INT 21H
+      91					 MOV BL,AL
+      92					 MOV numeros[SI],BX
+      93					 
+      94					 INC SI
+      95					 INC SI
+      96					 CMP SI,20
+      97					 JL CICLO_INGRESONUMEROS
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Page     1-3
+
+
+      98					 
+      99					 MOV SI,0
+     100					 MOV DI,0
+     101					 ENDM
+     102					 
+     103					 ;_____________________________
+					____
+     104					 ASCENDENTE MACRO
+     105					 
+     106					 MOV AX,numeros[SI]
+     107					 MOV BX,numeros[DI]
+     108					 
+     109					 CMP AX,BX
+     110					 JL SWAPMENOR
+     111					 INC DI
+     112					 INC DI
+     113					 CMP DI,20
+     114					 JL ASC
+     115					 MOV DI,0
+     116					 INC SI
+     117					 INC SI
+     118					 CMP SI,20
+     119					 JL ASC
+     120					 ENDM
+     121					 ;_____________________________
+					___
+     122					 
+     123					 DESCENDENTE MACRO
+     124					 
+     125					 MOV AX,numeros[SI]
+     126					 MOV BX,numeros[DI]
+     127					 
+     128					 CMP AX,BX
+     129					 JG SWAPMAYOR
+     130					 INC DI
+     131					 INC DI
+     132					 CMP DI,20
+     133					 JL DESC
+     134					 
+     135					 MOV DI,0
+     136					 INC SI
+     137					 INC SI
+     138					 CMP SI,20
+     139					 JL DESC
+     140					 ENDM
+     141					 
+     142					 ;_____________________________
+					___
+     143					 
+     144					 REPETIR MACRO
+     145					 MOV AH,09H
+     146					 MOV DX,OFFSET texto4
+     147					 INT 21H
+     148					 
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Page     1-4
+
+
+     149					 MOV AH,01H
+     150					 INT 21h
+     151					 CMP AL,49
+     152					 JE SALTO_INTERMEDIO
+     153					 ENDM
+     154					 ;_____________________________
+					___
+     155 0000					 code segment para public 'code
+					'
+     156					 assume cs:code,ss:stack,ds:dat
+					a
+     157					 
+     158 0000					 prueba proc far  
+     159 0000  1E			       PUSH DS
+     160 0001  2B C0			       SUB AX,AX
+     161 0003  50			       PUSH AX	   
+     162 0004  B8 ---- R		       MOV AX,SEG DATA;Estas dos instru
+					cciones siempre las van a poner
+     163 0007  8E D8			       MOV DS,AX
+     164					   
+     165					   ;paso1:desplegar mensaje ini
+					cial
+     166 0009					   INICIO_PROGRAMA:
+     167 0009  B4 09				   MOV AH,09H
+     168 000B  BA 0000 R			   MOV DX,OFFSET texto1
+     169 000E  CD 21				   INT 21H
+     170					   
+     171					   ;paso2:se solicitan los 10 n
+					umeros
+     172					   INGRESAR_DATOS
+     173 0010  BE 0000               1	     MOV SI,0 
+     174 0013                        1		 CICLO_INGRESONUMEROS: 
+     175 0013  B4 09                 1		 MOV AH,09H 
+     176 0015  BA 001E R             1		 MOV DX,OFFSET texto2 
+     177 0018  CD 21                 1		 INT 21H 
+     178 001A  B4 01                 1		 MOV AH,01H 
+     179 001C  CD 21                 1		 INT 21H 
+     180 001E  8A F8                 1		 MOV BH,AL 
+     181 0020  B4 01                 1		 MOV AH,01H 
+     182 0022  CD 21                 1		 INT 21H 
+     183 0024  8A D8                 1		 MOV BL,AL 
+     184 0026  89 9C 0112 R          1		 MOV numeros[SI],BX 
+     185 002A  46                    1		 INC SI 
+     186 002B  46                    1		 INC SI 
+     187 002C  83 FE 14              1		 CMP SI,20 
+     188 002F  7C E2                 1		 JL CICLO_INGRESONUMEROS 
+     189 0031  BE 0000               1		 MOV SI,0 
+     190 0034  BF 0000               1		 MOV DI,0 
+     191					   
+     192 0037					   orden:
+     193					   ;paso3:seleccionar tipo de o
+					rdenamiento
+     194 0037  B4 09				   MOV AH,09H
+     195 0039  BA 007B R			   MOV DX,OFFSET texto3
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Page     1-5
+
+
+     196 003C  CD 21			       INT 21H
+     197					   
+     198 003E  B4 01				   MOV AH,01H
+     199 0040  CD 21				   INT 21H
+     200 0042  3C 30				   CMP AL,48
+     201 0044  74 32				   JE ASC
+     202 0046  3C 31				   CMP AL,49
+     203 0048  74 02				   JE DESC
+     204 004A  EB EB				   JMP orden
+     205					   ;paso4:ordenar de manera asc
+					endente y descendente.
+     206					   
+     207 004C					   DESC:
+     208					   DESCENDENTE
+     209 004C  8B 84 0112 R          1		 MOV AX,numeros[SI] 
+     210 0050  8B 9D 0112 R          1		 MOV BX,numeros[DI] 
+     211 0054  3B C3                 1		 CMP AX,BX 
+     212 0056  7F 14                 1		 JG SWAPMAYOR 
+     213 0058  47                    1		 INC DI 
+     214 0059  47                    1		 INC DI 
+     215 005A  83 FF 14              1		 CMP DI,20 
+     216 005D  7C ED                 1		 JL DESC 
+     217 005F  BF 0000               1		 MOV DI,0 
+     218 0062  46                    1		 INC SI 
+     219 0063  46                    1		 INC SI 
+     220 0064  83 FE 14              1		 CMP SI,20 
+     221 0067  7C E3                 1		 JL DESC 
+     222					   
+     223 0069  EB 37 90				   JMP CONTINUA
+     224					   
+     225 006C					   SWAPMAYOR:
+     226 006C  89 85 0112 R			   MOV numeros[DI],AX
+     227 0070  89 9C 0112 R			   MOV numeros[SI],BX
+     228 0074  EB D6				   JMP DESC
+     229					   
+     230					   ;___________________________
+					_____
+     231 0076					   SALTO_INTERMEDIO:
+     232 0076  EB 91				   JMP INICIO_PROGRAMA
+     233					   ;___________________________
+					_____
+     234					   
+     235 0078					   ASC:
+     236					   ASCENDENTE
+     237 0078  8B 84 0112 R          1		 MOV AX,numeros[SI] 
+     238 007C  8B 9D 0112 R          1		 MOV BX,numeros[DI] 
+     239 0080  3B C3                 1		 CMP AX,BX 
+     240 0082  7C 14                 1		 JL SWAPMENOR 
+     241 0084  47                    1		 INC DI 
+     242 0085  47                    1		 INC DI 
+     243 0086  83 FF 14              1		 CMP DI,20 
+     244 0089  7C ED                 1		 JL ASC 
+     245 008B  BF 0000               1		 MOV DI,0 
+     246 008E  46                    1		 INC SI 
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Page     1-6
+
+
+     247 008F  46                    1		 INC SI 
+     248 0090  83 FE 14              1		 CMP SI,20 
+     249 0093  7C E3                 1		 JL ASC 
+     250 0095  EB 0B 90				   JMP CONTINUA
+     251					   
+     252 0098					   SWAPMENOR:
+     253 0098  89 85 0112 R			   MOV numeros[DI],AX
+     254 009C  89 9C 0112 R			   MOV numeros[SI],BX
+     255 00A0  EB D6				   JMP ASC
+     256					   
+     257					   ;paso5:impresion de los resu
+					ltados
+     258 00A2					   CONTINUA:
+     259					   ESPACIO
+     260 00A2  B4 09                 1	     MOV AH,09H 
+     261 00A4  BA 010F R             1		 MOV DX,OFFSET texto5 
+     262 00A7  CD 21                 1		 INT 21h 
+     263 00A9  BE 0000				   MOV SI,0
+     264					   
+     265 00AC					   CICLO_IMPRESION:
+     266 00AC  8B 9C 0112 R			   MOV BX,numeros[SI]
+     267 00B0  8A D7				   MOV DL,BH
+     268 00B2  B4 06				   MOV AH,06H
+     269 00B4  CD 21				   INT 21H
+     270					   
+     271 00B6  8A D3				   MOV DL,BL
+     272 00B8  B4 06				   MOV AH,06H
+     273 00BA  CD 21				   INT 21H
+     274					   
+     275					   ESPACIO
+     276 00BC  B4 09                 1	     MOV AH,09H 
+     277 00BE  BA 010F R             1		 MOV DX,OFFSET texto5 
+     278 00C1  CD 21                 1		 INT 21h 
+     279 00C3  46				   INC SI
+     280 00C4  46				   INC SI
+     281 00C5  83 FE 14				   CMP SI,20
+     282 00C8  7C E2				   JL CICLO_IMPRESION
+     283					   
+     284					   ;pregunta si se desea repeti
+					r
+     285					   REPETIR
+     286 00CA  B4 09                 1		 MOV AH,09H 
+     287 00CC  BA 00B9 R             1		 MOV DX,OFFSET texto4 
+     288 00CF  CD 21                 1		 INT 21H 
+     289 00D1  B4 01                 1		 MOV AH,01H 
+     290 00D3  CD 21                 1		 INT 21h 
+     291 00D5  3C 31                 1		 CMP AL,49 
+     292 00D7  74 9D                 1		 JE SALTO_INTERMEDIO 
+     293					   
+     294 00D9  CB				   RET
+     295					   
+     296 00DA				     prueba endp
+     297				
+     298 00DA				     code ends
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Page     1-7
+
+
+     299				
+     300				     END prueba
+
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Symbols-1
+
+
+Macros:
+
+		N a m e			Lines
+
+ASCENDENTE . . . . . . . . . . .  	  13
+DESCENDENTE  . . . . . . . . . .  	  13
+ESPACIO  . . . . . . . . . . . .  	   3
+INGRESAR_DATOS . . . . . . . . .  	  18
+REPETIR  . . . . . . . . . . . .  	   7
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	00DA	PARA	PUBLIC	'CODE'
+DATA . . . . . . . . . . . . . .  	0128	PARA	PUBLIC	'DATA'
+STACK  . . . . . . . . . . . . .  	0200	PARA	STACK	'STACK'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ASC  . . . . . . . . . . . . . .  	L NEAR	0078	CODE
+
+CICLO_IMPRESION  . . . . . . . .  	L NEAR	00AC	CODE
+CICLO_INGRESONUMEROS . . . . . .  	L NEAR	0013	CODE
+CONTINUA . . . . . . . . . . . .  	L NEAR	00A2	CODE
+
+DESC . . . . . . . . . . . . . .  	L NEAR	004C	CODE
+
+INICIO_PROGRAMA  . . . . . . . .  	L NEAR	0009	CODE
+
+NUMEROS  . . . . . . . . . . . .  	L WORD	0112	DATA
+
+ORDEN  . . . . . . . . . . . . .  	L NEAR	0037	CODE
+
+PRUEBA . . . . . . . . . . . . .  	F PROC	0000	CODE	Length = 00DA
+
+SALTO_INTERMEDIO . . . . . . . .  	L NEAR	0076	CODE
+SWAPMAYOR  . . . . . . . . . . .  	L NEAR	006C	CODE
+SWAPMENOR  . . . . . . . . . . .  	L NEAR	0098	CODE
+
+TEXTO1 . . . . . . . . . . . . .  	L BYTE	0000	DATA
+TEXTO2 . . . . . . . . . . . . .  	L BYTE	001E	DATA
+TEXTO3 . . . . . . . . . . . . .  	L BYTE	007B	DATA
+TEXTO4 . . . . . . . . . . . . .  	L BYTE	00B9	DATA
+TEXTO5 . . . . . . . . . . . . .  	L BYTE	010F	DATA
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  MACRO001		
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+Microsoft (R) Macro Assembler Version 5.10                  5/17/23 23:25:48
+Practica6                                                   Symbols-2
+
+
+
+    194 Source  Lines
+    251 Total   Lines
+     30 Symbols
+
+  46256 + 433277 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

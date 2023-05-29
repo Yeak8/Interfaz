@@ -1,0 +1,391 @@
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:44
+                                                             Page     1-1
+
+
+       1				EXTRN TEXTO2:BYTE
+       2				EXTRN NUMEROS:WORD
+       3				EXTRN TEXTO5:BYTE
+       4				EXTRN TEXTO4:BYTE
+       5				EXTRN TEXTO1:BYTE
+       6				EXTRN TEXTO3:BYTE
+       7				EXTRN TEXTO3:BYTE
+       8				EXTRN TEXTO6:BYTE
+       9				EXTRN TEXTO7:BYTE
+      10				EXTRN numDatos:BYTE
+      11				EXTRN numeroDatos:WORD
+      12				PUBLIC INGRESONUMEROS
+      13				PUBLIC ORDENAR_DESC
+      14				PUBLIC ORDENAR_ASC
+      15				PUBLIC IMPRIMIR
+      16				PUBLIC REPETIR
+      17				PUBLIC ESPACIO
+      18				PUBLIC TITULOINICIAL
+      19				PUBLIC TIPOORDENAMIENTO
+      20				PUBLIC NUMERODEELEMENTOS
+      21				PUBLIC INICIALIZAR
+      22				
+      23 0000				DATA1 SEGMENT PARA PUBLIC 'DATA'
+      24				
+      25 0000				DATA1 ENDS
+      26				;--------------------------------------
+					-------------------------------
+      27				
+      28 0000				CODE SEGMENT PARA PUBLIC 'CODE'
+      29				ASSUME CS:CODE, DS:DATA1
+      30				
+      31 0000				INGRESONUMEROS PROC FAR
+      32				
+      33 0000  B8 0000			MOV AX, 0
+      34 0003  BB 0000			MOV BX, 0
+      35 0006  BE 0000			MOV SI, 0
+      36 0009  BF 0000			MOV DI, 0
+      37 000C				CICLO_INGRESONUMEROS:
+      38 000C  B4 09			MOV AH, 09H            ;Funcion para im
+					primir caracteres
+      39 000E  BA 0000 E		MOV DX, OFFSET TEXTO2  ;TEXTO2 contiene
+					 la indicacion de ingresar numero
+      40 0011  CD 21			INT 21H
+      41				
+      42 0013  B4 01			MOV AH, 01H     ;lectura del primer dig
+					ito
+      43 0015  CD 21			INT 21H
+      44 0017  8A F8			MOV BH,AL
+      45				
+      46 0019  B4 01			MOV AH, 01H          ;lectura del segun
+					do digito
+      47 001B  CD 21			INT 21H
+      48 001D  8A D8			MOV BL, AL
+      49 001F  89 9C 0000 E		MOV NUMEROS[SI],  BX
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:44
+                                                             Page     1-2
+
+
+      50				
+      51				
+      52 0023  46			INC SI
+      53 0024  46			INC SI
+      54 0025  47			INC DI
+      55 0026  3B 3E 0000 E		CMP DI, numeroDatos
+      56 002A  7C E0			JL CICLO_INGRESONUMEROS
+      57				
+      58 002C  BE 0000			MOV SI,0
+      59 002F  BF 0000			MOV DI, 0
+      60				
+      61				;POP DS
+      62 0032  CB			RET
+      63 0033				INGRESONUMEROS ENDP
+      64				
+      65				;__________________________
+      66 0033				ORDENAR_DESC PROC FAR
+      67 0033  B9 0000			MOV CX, 0
+      68 0036				DESC2:
+      69 0036  8B 84 0000 E		MOV AX, NUMEROS[SI]
+      70 003A  8B 9D 0000 E		MOV BX, NUMEROS[DI]
+      71				
+      72 003E  3B C3			CMP AX, BX
+      73 0040  7F 03			JG SWAPMAYOR
+      74 0042  EB 0B 90			JMP CONTINUA
+      75 0045					SWAPMAYOR:
+      76 0045  89 85 0000 E				MOV NUMEROS[DI], AX
+      77 0049  89 9C 0000 E				MOV NUMEROS[SI], BX
+      78 004D  EB E7					JMP DESC2
+      79				
+      80 004F				CONTINUA:
+      81 004F  47			INC DI
+      82 0050  47			INC DI
+      83 0051  41			INC CX
+      84 0052  3B 0E 0000 E		CMP CX, numeroDatos
+      85 0056  7C DE			JL DESC2
+      86 0058  BF 0000			MOV DI, 0
+      87 005B  B9 0000			MOV CX, 0
+      88 005E  46			INC SI
+      89 005F  46			INC SI
+      90 0060  42			INC DX
+      91 0061  3B 16 0000 E		CMP DX, numeroDatos
+      92 0065  7C CF			JL DESC2
+      93 0067  CB			RET 
+      94 0068				ORDENAR_DESC ENDP
+      95				
+      96				
+      97				;_____________________
+      98 0068				ORDENAR_ASC PROC FAR  ;se cambio near a
+					 far	
+      99 0068  B9 0000			MOV CX, 0
+     100 006B				ASC2:
+     101 006B  8B 84 0000 E		MOV AX, NUMEROS[SI]
+     102 006F  8B 9D 0000 E		MOV BX, NUMEROS[DI]
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:44
+                                                             Page     1-3
+
+
+     103				
+     104 0073  3B C3			CMP AX, BX
+     105 0075  7C 03			JL SWAPMENOR
+     106 0077  EB 0B 90			JMP CONTINUA2
+     107 007A					SWAPMENOR:
+     108 007A  89 85 0000 E			MOV NUMEROS[DI], AX
+     109 007E  89 9C 0000 E			MOV NUMEROS[SI], BX
+     110 0082  EB E7				JMP ASC2
+     111				
+     112 0084				CONTINUA2:
+     113 0084  47			INC DI
+     114 0085  47			INC DI
+     115 0086  41			INC CX
+     116 0087  3B 0E 0000 E		CMP CX, numeroDatos
+     117 008B  7C DE			JL ASC2
+     118 008D  BF 0000			MOV DI, 0
+     119 0090  B9 0000			MOV CX, 0
+     120 0093  46			INC SI
+     121 0094  46			INC SI
+     122 0095  42			INC DX
+     123 0096  3B 16 0000 E		CMP DX, numeroDatos
+     124 009A  7C CF			JL ASC2
+     125 009C  CB			RET 
+     126 009D				ORDENAR_ASC ENDP
+     127				
+     128				;______________________
+     129 009D				IMPRIMIR PROC FAR ;se cambio near a far
+     130 009D  B8 0600			MOV AX, 0600H     ;limpia la pantalla
+     131 00A0  B7 07			MOV BH, 07H
+     132 00A2  B9 0000			MOV CX, 0000H
+     133 00A5  BA 164F			MOV DX,164FH
+     134 00A8  CD 10			INT 10H
+     135				
+     136 00AA  B4 02			MOV AH,02H			;FUNCIO
+					N DE COLOCACION DE CURSOR
+     137 00AC  B7 00			MOV BH,0			;PAGINA
+					 NORMALMENTE ES CERO
+     138 00AE  B6 00			MOV DH,0			;FILA
+     139 00B0  B2 00			MOV DL,0			;COLUMN
+					A
+     140 00B2  CD 10			INT 10H
+     141				
+     142 00B4  BE 0000			MOV SI, 0
+     143 00B7  BF 0000			MOV DI, 0
+     144 00BA  BB 0000			MOV BX, 0
+     145 00BD  B8 0000			MOV AX, 0
+     146 00C0  BA 0000			MOV DX, 0
+     147 00C3				CICLO_IMPRESION:
+     148 00C3  8B C7			MOV AX,DI ;EN AX EL NUMERO ACTUAL DE RE
+					PETICION
+     149 00C5  3D 0000			CMP AX, 0
+     150 00C8  75 03			JNE SINOESELPRIMERO
+     151 00CA  EB 14 90			JMP CONTINUA3
+     152 00CD				SINOESELPRIMERO:
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:44
+                                                             Page     1-4
+
+
+     153 00CD  B1 0A			MOV CL, 10
+     154 00CF  F6 F1			DIV CL
+     155 00D1  80 FC 00			CMP AH, 0
+     156 00D4  74 03			JE NUEVALINEA
+     157 00D6  EB 08 90			JMP CONTINUA3
+     158 00D9					NUEVALINEA:
+     159 00D9  B4 09				MOV AH, 09H
+     160 00DB  BA 0000 E			MOV DX, OFFSET TEXTO5
+     161 00DE  CD 21				INT 21H
+     162 00E0				CONTINUA3:
+     163				
+     164 00E0  8B 9C 0000 E		MOV BX, NUMEROS[SI]
+     165 00E4  8A D7			MOV DL, BH
+     166 00E6  B4 06			MOV AH, 06H	;PRIMER DIGITO
+     167 00E8  CD 21			INT 21H
+     168				
+     169 00EA  8A D3			MOV DL, BL	;SEGUNDO DIGITO
+     170 00EC  B4 06			MOV AH, 06H
+     171 00EE  CD 21			INT 21H
+     172				
+     173 00F0  B4 09			MOV AH, 09H		;FUNCION PARA I
+					MPRIMIR CARACTERES
+     174 00F2  BA 0000 E		MOV DX, OFFSET TEXTO7 	;TEXTO7 CONTIEN
+					E ESPACIO BLANCO
+     175 00F5  CD 21			INT 21H
+     176				
+     177 00F7  46			INC SI
+     178 00F8  46			INC SI
+     179 00F9  47			INC DI
+     180 00FA  3B 3E 0000 E		CMP DI, numeroDatos
+     181 00FE  7C C3			JL CICLO_IMPRESION
+     182				
+     183 0100  CB			RET
+     184 0101				IMPRIMIR ENDP
+     185				
+     186				;___________
+     187 0101				REPETIR PROC FAR		; SE CA
+					MBIO NEAR A FAR
+     188				
+     189 0101  B4 09				MOV AH, 09H
+     190 0103  BA 0000 E			MOV DX, OFFSET TEXTO4
+     191 0106  CD 21				INT 21H
+     192					
+     193 0108  B8 0000				MOV AX, 0
+     194 010B  B4 01				MOV AH, 01H
+     195 010D  CD 21				INT 21H
+     196					;CMP AL,49
+     197 010F  CB			RET
+     198 0110				REPETIR ENDP
+     199				
+     200				;______________________________
+     201 0110				ESPACIO PROC FAR
+     202				
+     203 0110  B4 09			MOV AH, 09H
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:44
+                                                             Page     1-5
+
+
+     204 0112  BA 0000 E		MOV DX, OFFSET TEXTO5
+     205 0115  CD 21			INT 21H
+     206 0117  CB			RET
+     207 0118				ESPACIO ENDP
+     208				
+     209				;______________
+     210 0118				TITULOINICIAL PROC FAR
+     211 0118  B4 09			MOV AH, 09H
+     212 011A  BA 0000 E		MOV DX, OFFSET TEXTO1
+     213 011D  CD 21			INT 21H
+     214 011F  CB			RET
+     215 0120				TITULOINICIAL ENDP
+     216				
+     217				;______________________________
+     218 0120				TIPOORDENAMIENTO PROC FAR
+     219				
+     220 0120  B4 09			MOV AH, 09H
+     221 0122  BA 0000 E		MOV DX, OFFSET TEXTO3
+     222 0125  CD 21			INT 21H
+     223 0127  B4 01			MOV AH,01H
+     224 0129  CD 21			INT 21H
+     225 012B  BA 0000			MOV DX,0
+     226 012E  BF 0000			MOV DI, 0
+     227 0131  BE 0000			MOV SI, 0
+     228 0134  CB			RET
+     229 0135				TIPOORDENAMIENTO ENDP
+     230				
+     231				;___________________________
+     232 0135				NUMERODEELEMENTOS PROC FAR
+     233				
+     234 0135  B4 09			MOV AH, 09H
+     235 0137  BA 0000 E		MOV DX, OFFSET TEXTO6
+     236 013A  CD 21			INT 21H
+     237				
+     238 013C  B4 01			MOV AH,01H
+     239 013E  CD 21			INT 21H
+     240 0140  2C 30			SUB AL, 30H
+     241 0142  A2 0000 E		MOV numDatos[0], AL
+     242 0145  B4 01			MOV AH,01H
+     243 0147  CD 21			INT 21H
+     244 0149  2C 30			SUB AL, 30H
+     245 014B  A2 0001 E		MOV numDatos[1], AL
+     246 014E  B4 01			MOV AH,01H
+     247 0150  CD 21			INT 21H
+     248 0152  2C 30			SUB AL, 30H
+     249 0154  A2 0002 E		MOV numDatos[2], AL
+     250				
+     251 0157  B8 0000			MOV AX, 0
+     252 015A  BA 0000			MOV DX, 0
+     253 015D  8A 1E 0002 E		MOV BL, numDatos[2]
+     254				
+     255 0161  B1 0A			MOV CL, 10
+     256 0163  A0 0001 E		MOV AL, numDatos[1]
+     257 0166  F6 E1			MUL CL
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:44
+                                                             Page     1-6
+
+
+     258 0168  03 D8			ADD BX, AX
+     259				
+     260 016A  B1 64			MOV CL, 100
+     261 016C  A0 0000 E		MOV AL, numDatos[0]
+     262 016F  F6 E1			MUL CL
+     263 0171  03 D8			ADD BX, AX
+     264 0173  89 1E 0000 E		MOV numeroDatos, BX
+     265				
+     266 0177  CB			RET
+     267 0178				NUMERODEELEMENTOS ENDP
+     268				
+     269 0178				INICIALIZAR PROC FAR
+     270				
+     271 0178  B8 0000			MOV AX, 0
+     272 017B  BB 0000			MOV BX,0
+     273 017E  B9 0000			MOV CX,0
+     274 0181  BA 0000			MOV DX, 0
+     275 0184  C7 06 0000 E 0000	MOV numeroDatos, 0
+     276 018A  BF 0000			MOV DI, 0
+     277 018D  BE 0000			MOV SI, 0
+     278 0190  CB			RET
+     279 0191				INICIALIZAR ENDP
+     280 0191				CODE ENDS
+     281				END
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:44
+                                                             Symbols-1
+
+
+Segments and Groups:
+
+                N a m e         	Length	 Align	Combine Class
+
+CODE . . . . . . . . . . . . . .  	0191	PARA	PUBLIC	'CODE'
+DATA1  . . . . . . . . . . . . .  	0000	PARA	PUBLIC	'DATA'
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ASC2 . . . . . . . . . . . . . .  	L NEAR	006B	CODE
+
+CICLO_IMPRESION  . . . . . . . .  	L NEAR	00C3	CODE
+CICLO_INGRESONUMEROS . . . . . .  	L NEAR	000C	CODE
+CONTINUA . . . . . . . . . . . .  	L NEAR	004F	CODE
+CONTINUA2  . . . . . . . . . . .  	L NEAR	0084	CODE
+CONTINUA3  . . . . . . . . . . .  	L NEAR	00E0	CODE
+
+DESC2  . . . . . . . . . . . . .  	L NEAR	0036	CODE
+
+ESPACIO  . . . . . . . . . . . .  	F PROC	0110	CODE	Global	Length = 0008
+
+IMPRIMIR . . . . . . . . . . . .  	F PROC	009D	CODE	Global	Length = 0064
+INGRESONUMEROS . . . . . . . . .  	F PROC	0000	CODE	Global	Length = 0033
+INICIALIZAR  . . . . . . . . . .  	F PROC	0178	CODE	Global	Length = 0019
+
+NUEVALINEA . . . . . . . . . . .  	L NEAR	00D9	CODE
+NUMDATOS . . . . . . . . . . . .  	V BYTE	0000		External
+NUMERODATOS  . . . . . . . . . .  	V WORD	0000		External
+NUMERODEELEMENTOS  . . . . . . .  	F PROC	0135	CODE	Global	Length = 0043
+NUMEROS  . . . . . . . . . . . .  	V WORD	0000		External
+
+ORDENAR_ASC  . . . . . . . . . .  	F PROC	0068	CODE	Global	Length = 0035
+ORDENAR_DESC . . . . . . . . . .  	F PROC	0033	CODE	Global	Length = 0035
+
+REPETIR  . . . . . . . . . . . .  	F PROC	0101	CODE	Global	Length = 000F
+
+SINOESELPRIMERO  . . . . . . . .  	L NEAR	00CD	CODE
+SWAPMAYOR  . . . . . . . . . . .  	L NEAR	0045	CODE
+SWAPMENOR  . . . . . . . . . . .  	L NEAR	007A	CODE
+
+TEXTO1 . . . . . . . . . . . . .  	V BYTE	0000		External
+TEXTO2 . . . . . . . . . . . . .  	V BYTE	0000		External
+TEXTO3 . . . . . . . . . . . . .  	V BYTE	0000		External
+TEXTO4 . . . . . . . . . . . . .  	V BYTE	0000		External
+TEXTO5 . . . . . . . . . . . . .  	V BYTE	0000		External
+TEXTO6 . . . . . . . . . . . . .  	V BYTE	0000		External
+TEXTO7 . . . . . . . . . . . . .  	V BYTE	0000		External
+TIPOORDENAMIENTO . . . . . . . .  	F PROC	0120	CODE	Global	Length = 0015
+TITULOINICIAL  . . . . . . . . .  	F PROC	0118	CODE	Global	Length = 0008
+
+@CPU . . . . . . . . . . . . . .  	TEXT  0101h		
+@FILENAME  . . . . . . . . . . .  	TEXT  LIB07		
+Microsoft (R) Macro Assembler Version 5.10                  5/20/23 20:42:44
+                                                             Symbols-2
+
+
+@VERSION . . . . . . . . . . . .  	TEXT  510		
+
+
+    281 Source  Lines
+    281 Total   Lines
+     39 Symbols
+
+  46340 + 437288 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors
